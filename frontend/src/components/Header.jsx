@@ -2,8 +2,20 @@ import React from 'react';
 import { Bell, Search, ChevronDown, User } from 'lucide-react';
 
 const Header = ({ user }) => {
+    const [showDropdown, setShowDropdown] = React.useState(false);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem('profile');
+        window.dispatchEvent(new Event("authChange"));
+        window.location.href = "/login";
+    };
+
+    // Helper to capitalize first letter
+    const capitalize = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+
     return (
-        <header className="h-20 fixed top-0 right-0 left-64 z-10 px-8 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8))', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(148, 163, 184, 0.1)' }}>
+        <header className="h-20 fixed top-0 right-0 left-0 z-10 px-8 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8))', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(148, 163, 184, 0.1)' }}>
             {/* Search Bar */}
             <div className="flex items-center w-96">
                 <div className="relative w-full">
@@ -21,6 +33,16 @@ const Header = ({ user }) => {
                 </div>
             </div>
 
+            {/* Navigation Links (Admin Only) */}
+            {user?.is_staff && (
+                <nav className="flex items-center space-x-1">
+                    <a href="/dashboard" className="px-4 py-2 text-sm font-medium rounded-lg transition-all" style={{ color: '#94a3b8' }} onMouseEnter={(e) => { e.target.style.color = '#6366f1'; e.target.style.background = 'rgba(99, 102, 241, 0.1)'; }} onMouseLeave={(e) => { e.target.style.color = '#94a3b8'; e.target.style.background = 'transparent'; }}>Dashboard</a>
+                    <a href="/reports" className="px-4 py-2 text-sm font-medium rounded-lg transition-all" style={{ color: '#94a3b8' }} onMouseEnter={(e) => { e.target.style.color = '#6366f1'; e.target.style.background = 'rgba(99, 102, 241, 0.1)'; }} onMouseLeave={(e) => { e.target.style.color = '#94a3b8'; e.target.style.background = 'transparent'; }}>Reports</a>
+                    <a href="/products" className="px-4 py-2 text-sm font-medium rounded-lg transition-all" style={{ color: '#94a3b8' }} onMouseEnter={(e) => { e.target.style.color = '#6366f1'; e.target.style.background = 'rgba(99, 102, 241, 0.1)'; }} onMouseLeave={(e) => { e.target.style.color = '#94a3b8'; e.target.style.background = 'transparent'; }}>Products</a>
+                    <a href="/settings" className="px-4 py-2 text-sm font-medium rounded-lg transition-all" style={{ color: '#94a3b8' }} onMouseEnter={(e) => { e.target.style.color = '#6366f1'; e.target.style.background = 'rgba(99, 102, 241, 0.1)'; }} onMouseLeave={(e) => { e.target.style.color = '#94a3b8'; e.target.style.background = 'transparent'; }}>Settings</a>
+                </nav>
+            )}
+
             {/* Right Actions */}
             <div className="flex items-center space-x-6">
                 {/* Notifications */}
@@ -30,15 +52,34 @@ const Header = ({ user }) => {
                 </button>
 
                 {/* Profile Dropdown */}
-                <div className="flex items-center space-x-3 pl-6 cursor-pointer" style={{ borderLeft: '1px solid rgba(148, 163, 184, 0.1)' }}>
-                    <div className="w-10 h-10 bg-gradient-to-tr from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-md">
-                        {user?.username ? user.username.charAt(0).toUpperCase() : <User className="w-5 h-5" />}
+                <div className="relative">
+                    <div
+                        className="flex items-center space-x-3 pl-6 cursor-pointer"
+                        style={{ borderLeft: '1px solid rgba(148, 163, 184, 0.1)' }}
+                        onClick={() => setShowDropdown(!showDropdown)}
+                    >
+                        <div className="w-10 h-10 bg-gradient-to-tr from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-md">
+                            {user?.username ? user.username.charAt(0).toUpperCase() : <User className="w-5 h-5" />}
+                        </div>
+                        <div className="hidden md:block">
+                            <p className="text-sm font-semibold" style={{ color: '#f1f5f9' }}>{capitalize(user?.username) || 'User'}</p>
+                            <p className="text-xs" style={{ color: '#94a3b8' }}>{user?.is_staff ? 'Administrator' : 'Client'}</p>
+                        </div>
+                        <ChevronDown className="w-4 h-4" style={{ color: '#94a3b8' }} />
                     </div>
-                    <div className="hidden md:block">
-                        <p className="text-sm font-semibold" style={{ color: '#f1f5f9' }}>{user?.username || 'User'}</p>
-                        <p className="text-xs" style={{ color: '#94a3b8' }}>{user?.is_staff ? 'Administrator' : 'Client'}</p>
-                    </div>
-                    <ChevronDown className="w-4 h-4" style={{ color: '#94a3b8' }} />
+
+                    {/* Dropdown Menu */}
+                    {showDropdown && (
+                        <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-lg py-1 z-50" style={{ background: '#1e293b', border: '1px solid rgba(148, 163, 184, 0.1)' }}>
+                            <button
+                                onClick={handleLogout}
+                                className="block w-full text-left px-4 py-2 text-sm transition-colors hover:bg-red-500/10 hover:text-red-500"
+                                style={{ color: '#ef4444' }}
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </header>

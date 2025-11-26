@@ -314,6 +314,201 @@
 }
 
 .api-message.success {
+	margin: 0 auto;
+	padding: 24px;
+	font-size: 18px;
+}
+
+/* subtle paper grain using pseudo element */
+.invoice-paper:before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: radial-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+	background-size: 8px 8px;
+	opacity: 0.06;
+	pointer-events: none;
+}
+
+/* watermark */
+.invoice-paper .watermark {
+	position: absolute;
+	left: 50%;
+	top: 44%;
+	transform: translate(-50%, -50%) rotate(-20deg);
+	font-size: 72px;
+	color: rgba(255, 255, 255, 0.04);
+	font-weight: 800;
+	letter-spacing: 6px;
+	pointer-events: none;
+	user-select: none;
+}
+
+/* header: logo + company info */
+.invoice-paper .header-left {
+	display: flex;
+	align-items: center;
+	gap: 12px
+}
+
+.invoice-paper .logo {
+	width: 56px;
+	height: 56px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 800;
+	color: #041027;
+	background: linear-gradient(90deg, #ffd27a, #ff7b9b);
+	box-shadow: 0 8px 28px rgba(255, 107, 129, 0.08);
+}
+
+.invoice-paper .company {
+	font-size: 13px;
+	color: #9fb0c7
+}
+
+/* colored totals and separator */
+.invoice-paper .sep {
+	height: 1px;
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+	margin: 12px 0;
+}
+
+.preview-total {
+	margin-top: 12px;
+	font-size: 16px;
+	text-align: right;
+	color: #ffffff
+}
+
+.preview-total strong {
+	background: linear-gradient(90deg, #ffd27a, #ff6b81);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent
+}
+
+/* print/export button */
+.btn-secondary {
+	background: linear-gradient(90deg, #60a5fa, #7c3aed);
+	color: white;
+	padding: 8px 12px;
+	border-radius: 10px;
+	border: 0;
+	cursor: pointer;
+	font-weight: 700;
+	box-shadow: 0 10px 30px rgba(96, 165, 250, 0.08);
+}
+
+.btn-secondary:hover {
+	transform: translateY(-2px);
+}
+
+.invoice-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 12px;
+}
+
+.invoice-table th,
+.invoice-table td {
+	padding: 8px 6px;
+	text-align: left;
+	border-bottom: 1px dashed rgba(255, 255, 255, 0.02);
+	font-size: 14px
+}
+
+.invoice-table th {
+	color: #9fb0c7;
+	font-weight: 600
+}
+
+.invoice-table td.amount {
+	text-align: right;
+	font-weight: 600
+}
+
+.login-success {
+	color: #065f46;
+	background: #063b2b;
+	padding: 8px 10px;
+	border-radius: 6px;
+}
+
+.login-error {
+	color: #7f1d1d;
+	background: #2b0b0b;
+	padding: 8px 10px;
+	border-radius: 6px;
+}
+
+/* accent tag */
+.tag-accent {
+	display: inline-block;
+	padding: 6px 10px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, #7c3aed, #60a5fa);
+	color: #041027;
+	font-weight: 700;
+	box-shadow: 0 8px 28px rgba(96, 165, 250, 0.06)
+}
+
+@media (max-width:900px) {
+	.invoice-container {
+		flex-direction: column;
+	}
+
+	.preview {
+		width: 100%;
+	}
+
+	.invoice-hero {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+/* Modal for invoice listing */
+.invoice-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.9));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1200;
+}
+
+.invoice-modal {
+	background: linear-gradient(180deg, #05060a 0%, #0b0b0d 100%);
+	border-radius: 10px;
+	padding: 18px;
+	width: 880px;
+	max-width: 96%;
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+	border: 1px solid rgba(255, 255, 255, 0.02);
+	color: #e6eef8;
+}
+
+.invoice-modal table td {
+	font-size: 14px;
+}
+
+.invoice-modal h3 {
+	margin: 0;
+}
+
+/* API Messages */
+.api-message {
+	padding: 10px 14px;
+	border-radius: 8px;
+	margin-bottom: 12px;
+	font-size: 13px;
+}
+
+.api-message.success {
 	background: rgba(16, 185, 129, 0.1);
 	border: 1px solid rgba(16, 185, 129, 0.3);
 	color: #86efac;
@@ -323,4 +518,11 @@
 	background: rgba(239, 68, 68, 0.1);
 	border: 1px solid rgba(239, 68, 68, 0.3);
 	color: #fca5a5;
+}
+
+/* Fix for select dropdown options in dark mode */
+select option {
+	background-color: #0f172a;
+	color: #e6eef8;
+	padding: 10px;
 }

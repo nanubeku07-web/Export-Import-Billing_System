@@ -30,28 +30,27 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      // Assuming api.register exists or using axios directly
-      // For now, let's assume a direct axios call or similar structure to Login
-      // Since I don't have the full API spec, I'll use a placeholder or try to infer
-      // Let's assume there is a register endpoint
+      const { register, setToken } = await import('../api');
+      const res = await register(formData.username, formData.email, formData.password);
 
-      // const res = await api.register(formData); 
-      // If api.register is not defined in the viewed files, I should check api.js content again or just use axios for now if I am unsure.
-      // But let's stick to the pattern. I'll use a mock success for now if API is not clear, but better to try to hit an endpoint.
-
-      // Placeholder for registration logic
-      // await new Promise(resolve => setTimeout(resolve, 1000)); // Mock delay
-
-      // navigate("/login");
-
-      // REAL IMPLEMENTATION ATTEMPT:
-      // const res = await axios.post("http://127.0.0.1:8000/api/register/", formData);
-      // navigate("/login");
-
-      // For safety, I will just show an error that backend is not connected if it fails, or redirect.
-      navigate("/login"); // Just redirect for now as I focus on UI
-
+      if (res.ok) {
+        // Store token and redirect to dashboard
+        setToken(res.data.token, true);
+        navigate("/home");
+      } else {
+        // Handle validation errors
+        if (res.data.username) {
+          setError(res.data.username[0]);
+        } else if (res.data.email) {
+          setError(res.data.email[0]);
+        } else if (res.data.password) {
+          setError(res.data.password[0]);
+        } else {
+          setError("Registration failed. Please try again.");
+        }
+      }
     } catch (err) {
+      console.error("Registration error:", err);
       setError("Registration failed. Please try again.");
     } finally {
       setLoading(false);
@@ -65,7 +64,7 @@ const Signup = () => {
     >
       <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {error && (
-          <div className="auth-error" style={{ 
+          <div className="auth-error" style={{
             padding: '12px 16px',
             background: 'rgba(239, 68, 68, 0.1)',
             borderLeft: '3px solid #ef4444',

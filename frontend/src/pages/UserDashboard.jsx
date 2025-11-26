@@ -121,7 +121,6 @@ const UserDashboard = () => {
                         {/* Quick Links */}
                         <div className="quick-links">
                             <a href="/user-products" className="quick-link">📦 View Products</a>
-                            <a href="/user-clients" className="quick-link">👥 View Clients</a>
                             <a href="/user-inventory" className="quick-link">📊 View Inventory</a>
                         </div>
                     </>

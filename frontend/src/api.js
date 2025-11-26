@@ -81,5 +81,22 @@ export async function fetchMe() {
   return apiFetch('/api/me/');
 }
 
-export default { apiFetch, obtainToken, fetchMe, setToken, getToken };
+export async function register(username, email, password) {
+  const res = await fetch(API_BASE + '/api/register/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, email, password })
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    return { ok: false, status: res.status, data };
+  }
+
+  return { ok: true, data };
+}
+
+export default { apiFetch, obtainToken, fetchMe, setToken, getToken, register };
+
 

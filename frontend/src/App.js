@@ -44,8 +44,8 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={!isAuth ? <Login /> : <Navigate to="/dashboard" />} />
-        <Route path="/login" element={!isAuth ? <Login /> : <Navigate to="/dashboard" />} />
+        <Route path="/" element={!isAuth ? <Login /> : <Navigate to="/home" />} />
+        <Route path="/login" element={!isAuth ? <Login /> : <Navigate to="/home" />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
@@ -54,7 +54,9 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <AdminDashboard />
+              <RoleProtectedRoute adminOnly={true}>
+                <AdminDashboard />
+              </RoleProtectedRoute>
             </ProtectedRoute>
           }
         />
