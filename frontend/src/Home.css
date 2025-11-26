@@ -1,0 +1,111 @@
+/* Hero section styles (matches `Home.jsx` markup) */
+.hero-section {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* Fallback background color while image loads */
+  background-color: #000;
+}
+
+.hero-section::before {
+  /* If you have a hero image in `public` (e.g. /hero.jpg), set it here.
+     Remove or override in a parent stylesheet if you provide the image dynamically. */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/hero.jpg') center/cover no-repeat;
+  z-index: 0;
+  filter: brightness(0.6) saturate(0.9);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  max-width: 1100px;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 64px;
+  line-height: 1.05;
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.hero-content h1 span {
+  background: linear-gradient(90deg, #6fb3ff 0%, #2b6bff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.hero-content p {
+  color: #e6e6e6;
+  margin: 0 0 32px;
+  font-size: 20px;
+}
+
+.hero-buttons {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-buttons .btn-primary,
+.hero-buttons .btn-secondary {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.hero-buttons .btn-primary {
+  background: linear-gradient(90deg, #7b61ff 0%, #3aa0ff 100%);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(50, 80, 200, 0.25);
+}
+
+.hero-buttons .btn-primary:hover {
+  transform: translateY(-3px);
+}
+
+.hero-buttons .btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-buttons .btn-secondary:hover {
+  transform: translateY(-3px);
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .hero-content h1 { font-size: 48px; }
+  .hero-content p { font-size: 18px; }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 { font-size: 34px; }
+  .hero-buttons { flex-direction: column; gap: 8px; }
+}
